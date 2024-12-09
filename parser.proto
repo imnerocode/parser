@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+
+message MeshAttributes {
+    repeated float Vertices = 1;
+    repeated uint32 Indices = 2;
+    repeated float Normals = 3;
+    repeated float UV = 4;
+    repeated MaterialAttributes Material = 5; 
+}
+
+
+message MaterialAttributes {
+    string Name = 1;
+    repeated float Color = 2;
+    string Texture = 3;
+    int32 opacity = 4;
+}
+
+
+message ParserRequest {
+    string file_path = 1;
+}
+
+message ParserResponse {
+    MeshAttributes MeshAttr = 1;
+}
+
+
+service ParserService {
+    rpc ParserModel(ParserRequest) returns (ParserResponse) {};
+}
