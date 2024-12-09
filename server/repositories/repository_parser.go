@@ -4,20 +4,26 @@ import (
 	"context"
 
 	pb "github.com/imnerocode/parser/parser"
-	"gorm.io/gorm"
 )
 
 type ParserRepository struct {
-	Db *gorm.DB
 	pb.UnimplementedParserServiceServer
 }
 
-func NewParserRepository(db *gorm.DB) *ParserRepository {
-	return &ParserRepository{Db: db}
-}
-
 func (r *ParserRepository) ParserModel(ctx context.Context, rq *pb.ParserRequest) (*pb.ParserResponse, error) {
-	response := &pb.ParserResponse{}
+	// Llamamos a la función que procesa el archivo .obj
+	meshAttr, err := pb.ParserToOBJ(rq.GetFilePath())
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.ParserResponse{
+		MeshAttr: &pb.MeshAttributes{
+			Vertices: meshAttr.Vertices,
+			Indices:  meshAttr.Indices,
+			Normals:  meshAttr.Normals,
+			UV:       meshAttr.UV,
+		},
+	}
 
 	return response, nil
 }
