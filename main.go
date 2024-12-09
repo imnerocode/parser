@@ -29,6 +29,8 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("Vertives: %+v", meshAttr.Vertices)
+	fmt.Printf("Vertices: %+v\n", meshAttr.Vertices)
+	fmt.Printf("UVs: %+v\n", meshAttr.UV)
+	fmt.Printf("Normals: %+v", meshAttr.Normals)
 
 }
