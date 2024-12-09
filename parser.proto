@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 
+option go_package = "./parser;parser";
+
 message MeshAttributes {
     repeated float Vertices = 1;
     repeated uint32 Indices = 2;
