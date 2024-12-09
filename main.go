@@ -2,28 +2,33 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net"
 
-	"github.com/imnerocode/parser/test_grpc"
-	pb "github.com/imnerocode/parser/test_grpc/test_grpc"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+	"github.com/imnerocode/parser/parser"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":50051")
+	/*
+			lis, err := net.Listen("tcp", ":50051")
+		if err != nil {
+			log.Fatalf("Failed to listen on port 50051: %v", err)
+		}
+
+		grpcServer := grpc.NewServer()
+
+		reflection.Register(grpcServer)
+		pb.RegisterParserTestServiceServer(grpcServer, &test_grpc.ParserTestServiceImpl{})
+
+		fmt.Println("Server is running on port :50051")
+		if err := grpcServer.Serve(lis); err != nil {
+			log.Fatalf("Failed to serve: %v", err)
+		}
+	*/
+
+	meshAttr, err := parser.ParserToOBJ("utils/models/Hello_Node.obj")
 	if err != nil {
-		log.Fatalf("Failed to listen on port 50051: %v", err)
+		panic(err)
 	}
 
-	grpcServer := grpc.NewServer()
+	fmt.Printf("Vertives: %+v", meshAttr.Vertices)
 
-	reflection.Register(grpcServer)
-	pb.RegisterParserTestServiceServer(grpcServer, &test_grpc.ParserTestServiceImpl{})
-
-	fmt.Println("Server is running on port :50051")
-	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Failed to serve: %v", err)
-	}
 }
